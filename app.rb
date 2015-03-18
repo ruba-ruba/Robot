@@ -27,6 +27,9 @@ class Table
 end
 
 class Movement
+  extend Forwardable
+
+  def_delegator :@robot, :direction
 
   attr_reader :robot, :table
 
@@ -37,7 +40,7 @@ class Movement
   end
 
   def move
-    case robot.direction
+    case direction
     when 'NORTH'
       robot.y += 1 unless border_reached
     when 'EAST'
@@ -52,7 +55,28 @@ class Movement
   end
 
   def border_reached
-    
+    case direction
+    when 'NORTH'
+      if (robot.y + 1) > table.height
+        puts "you shall not pass TO -> #{direction} #{robot.y + 1}"
+        true
+      end
+    when 'EAST'
+      if (robot.x + 1) > table.height
+        puts "you shall not pass TO ->  #{direction} #{robot.x + 1}"
+        true
+      end
+    when 'SOUTH'
+      if (robot.y - 1) < 0
+        puts "you shall not pass TO ->  #{direction} #{robot.y - 1}"
+        true
+      end
+    when 'WEST'
+      if (robot.x - 1) < 0
+        puts "you shall not pass TO ->  #{direction} #{robot.x - 1}"
+        true
+      end
+    end
   end
 end
 
