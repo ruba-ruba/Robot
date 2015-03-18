@@ -3,17 +3,11 @@ class Rotator
 
   def initialize(robot, direction)
     @robot, @direction = robot, direction
-    self.rotate
+    self.rotate if robot.on_table?
   end
 
   def rotate
-    robot.direction =
-      case direction
-      when 'LEFT'
-        step_left
-      when 'RIGHT'
-        step_right
-      end
+    robot.direction = self.public_send("step_#{direction.downcase}")
   end
 
   def current

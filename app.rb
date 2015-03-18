@@ -9,7 +9,6 @@ POSITIONS = %w(NORTH EAST SOUTH WEST)
 
 class DirectionIsNotRecognized < StandardError; end
 
-
 class Table
   attr_reader :height, :width
 
@@ -39,8 +38,7 @@ class Reader
     File.readlines(file).each do |line|
       line = line.strip
       if line.match(/PLACE/)
-        x,y,d = line.gsub(/PLACE/, '').strip.split(',')
-        @robot = Robot.new(x.to_i, y.to_i, d)
+        init_robot(line)
       elsif matchdata = (line.match(/LEFT/) || line.match(/RIGHT/))
         robot.rotate(matchdata[0]) if robot
       elsif line.match(/MOVE/)
@@ -49,6 +47,11 @@ class Reader
         puts robot.report
       end
     end
+  end
+
+  def init_robot(line)
+    x,y,d = line.gsub(/PLACE/, '').strip.split(',')
+    @robot = Robot.new(x.to_i, y.to_i, d)
   end
 end
 

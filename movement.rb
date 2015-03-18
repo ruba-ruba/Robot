@@ -10,7 +10,7 @@ class Movement
 
   def initialize(robot)
     @robot = robot
-    self.move
+    self.move if robot.on_table?
   end
 
   def move
@@ -25,15 +25,14 @@ class Movement
       robot.x -= 1
     else
       fail DirectionIsNotRecognized.new
-    end unless border_reached
+    end unless border_reached?
   end
 
   def message(value)
     p "you shall not pass to -> #{direction} #{value}"
   end
 
-
-  def border_reached
+  def border_reached?
     case direction
     when 'NORTH'
       (robot.y + 1) > table.height && message(robot.y + 1)
