@@ -1,14 +1,15 @@
+require 'forwardable'
 
 class Movement
   extend Forwardable
 
   def_delegator :@robot, :direction
+  def_delegator :@robot, :table
 
-  attr_reader :robot, :table
+  attr_reader :robot
 
-  def initialize(robot, table)
+  def initialize(robot)
     @robot = robot
-    @table = table
     self.move
   end
 
@@ -24,7 +25,7 @@ class Movement
       robot.x -= 1
     else
       fail DirectionIsNotRecognized.new
-    end if !border_reached
+    end unless border_reached
   end
 
   def message(value)

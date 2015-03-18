@@ -9,11 +9,6 @@ POSITIONS = %w(NORTH EAST SOUTH WEST)
 
 class DirectionIsNotRecognized < StandardError; end
 
-class MovementIsNotRecogized < StandardError
-  def initialize(turn)
-    "tried to turn #{turn}"
-  end
-end
 
 class Table
   attr_reader :height, :width
@@ -22,7 +17,6 @@ class Table
     @height, @width = height, width
   end
 end
-
 
 class Reader
   extend Forwardable
@@ -48,7 +42,7 @@ class Reader
         x,y,d = line.gsub(/PLACE/, '').strip.split(',')
         @robot = Robot.new(x.to_i, y.to_i, d)
       elsif matchdata = (line.match(/LEFT/) || line.match(/RIGHT/))
-        robot.rotate(matchdata[0])
+        robot.rotate(matchdata[0]) if robot
       elsif line.match(/MOVE/)
         robot.move
       elsif line.match(/REPORT/)

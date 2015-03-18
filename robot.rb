@@ -1,3 +1,5 @@
+require 'rspec'
+
 class Robot
   attr_accessor :x, :y, :direction, :table
 
@@ -7,9 +9,8 @@ class Robot
   end
 
   def move
-    Movement.new(self, table)
+    Movement.new(self)
   end
-
 
   def rotate(turn)
     Rotator.new(self, turn)
