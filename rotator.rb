@@ -17,22 +17,22 @@ class Rotator
   end
 
   def current
-    Robot::POSITIONS.index(robot.direction)
+    POSITIONS.index(robot.direction)
   end
 
   def step_right
-    if current >= Robot::POSITIONS.size
-      Robot::POSITIONS[0]
+    if current >= POSITIONS.size
+      POSITIONS[0]
     else
-      Robot::POSITIONS[current + 1]
+      POSITIONS[current + 1]
     end
   end
 
   def step_left
     if current == 0
-      Robot::POSITIONS[-1]
+      POSITIONS[-1]
     else
-      Robot::POSITIONS[current - 1]
+      POSITIONS[current - 1]
     end
   end
 end
