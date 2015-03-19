@@ -1,5 +1,7 @@
 require 'forwardable'
 
+class DirectionIsNotRecognized < StandardError; end
+
 class Movement
   extend Forwardable
 

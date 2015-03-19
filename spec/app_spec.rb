@@ -1,13 +1,12 @@
-load "./app.rb"
-
+require 'spec_helper'
 
 RSpec.describe Robot do
   let(:robot) {Robot.new(1,1, "EAST")}
-  
+
   it 'report' do
     expect(robot.report).to match('1, 1, EAST')
   end
-  
+
   context 'move' do
     let(:robot) {Robot.new(1,1, "SOUTH")}
 

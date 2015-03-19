@@ -1,17 +1,14 @@
 require 'pry'
 require 'forwardable'
 
-require_relative 'rotator'
-require_relative 'robot'
-require_relative 'movement'
+require_relative 'app/rotator'
+require_relative 'app/robot'
+require_relative 'app/movement'
 
 POSITIONS = %w(NORTH EAST SOUTH WEST)
 
-class DirectionIsNotRecognized < StandardError; end
-
 class Table
   attr_reader :height, :width
-
   def initialize(height = 5, width = 5)
     @height, @width = height, width
   end
