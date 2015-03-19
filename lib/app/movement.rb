@@ -26,6 +26,8 @@ class Movement
       (robot.y - 1) < 0 && message(robot.y - 1)
     when 'WEST'
       (robot.x - 1) < 0 && message.call(robot.x - 1)
+    else
+      fail DirectionIsNotRecognized.new
     end
   end
 end

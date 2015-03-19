@@ -15,7 +15,14 @@ class Robot
     puts 'Robot is Not on table; Comands ignored' if !on_table?
   end
 
-  def move
+  def place(args)
+    x,y,direction = args.first.split(',')
+    self.x = x.to_i
+    self.y = y.to_i
+    self.direction = direction
+  end
+
+  def move(*)
     case direction
     when 'NORTH'
       self.y = self.y + 1
@@ -30,17 +37,23 @@ class Robot
     end unless Movement.new(self).border_reached?
   end
 
-  def rotate(turn)
-    self.direction = Rotator.new(self).new_direction(turn)
+  %w(left right).each do |method|
+    define_method(method) do |*|
+      rotate(__callee__)
+    end
   end
 
-  def report
-    "#{x}, #{y}, #{direction}" if on_table?
+  def rotate(turn)
+    self.direction = Rotator.new(self).new_direction(turn.to_s)
+  end
+
+  def report(*)
+    puts "#{x}, #{y}, #{direction}" if on_table?
   end
 
   def on_table?
-    return false if x >= table.width  || x < 0
-    return false if y >= table.height || y < 0
+    return false if x > table.width  || x < 0
+    return false if y > table.height || y < 0
     true
   end
 end

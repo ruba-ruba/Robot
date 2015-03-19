@@ -15,57 +15,33 @@ class Table
 end
 
 class Reader
-  extend Forwardable
-
   attr_reader :file
   attr_accessor :robot
 
-  def_delegator :robot, :move, :rotate
-
   def initialize
-    @file  = ARGV.first
-    @robot = nil
-  end
-
-  def execute
-    if file
-      run_commands_from_file
-    else
-      read_commands
-    end
+    @file    = ARGV.first
+    @robot ||= Robot.new
   end
 
   def read_commands
     puts 'type commands'
-
     ARGF.each do |line|
+      next if line.strip.empty?
+      break if line.strip.match(/exit/)
       run_commands(line)
     end
   end
 
   def run_commands(line)
-    binding.pry
+    command, args = line.split
+    self.send(command, args)
   end
 
-  def run_commands_from_file
-    File.readlines(file).each do |line|
-      line = line.strip
-      if line.match(/PLACE/)
-        init_robot(line)
-      elsif matchdata = (line.match(/LEFT/) || line.match(/RIGHT/))
-        robot.rotate(matchdata[0]) if robot
-      elsif line.match(/MOVE/)
-        robot.move
-      elsif line.match(/REPORT/)
-        puts robot.report
-      end
-    end
-  end
-
-  def init_robot(line)
-    x,y,d = line.gsub(/PLACE/, '').strip.split(',')
-    @robot = Robot.new(x.to_i, y.to_i, d)
+  def method_missing(method, *args, &block)
+    robot.public_send(method.downcase, args)
+  rescue
+    puts "Error: #{method} is not defined"
   end
 end
 
-Reader.new.execute
+Reader.new.read_commands
