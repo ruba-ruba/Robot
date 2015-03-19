@@ -28,10 +28,26 @@ class Reader
   end
 
   def execute
-    run_commands if file
+    if file
+      run_commands_from_file
+    else
+      read_commands
+    end
   end
 
-  def run_commands
+  def read_commands
+    puts 'type commands'
+
+    ARGF.each do |line|
+      run_commands(line)
+    end
+  end
+
+  def run_commands(line)
+    binding.pry
+  end
+
+  def run_commands_from_file
     File.readlines(file).each do |line|
       line = line.strip
       if line.match(/PLACE/)

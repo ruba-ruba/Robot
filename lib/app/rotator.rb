@@ -1,13 +1,12 @@
 class Rotator
-  attr_accessor :robot, :direction
+  attr_accessor :robot
 
-  def initialize(robot, direction)
-    @robot, @direction = robot, direction
-    self.rotate if robot.on_table?
+  def initialize(robot)
+    @robot = robot
   end
 
-  def rotate
-    robot.direction = self.public_send("step_#{direction.downcase}")
+  def new_direction(new_direction)
+    self.public_send("step_#{new_direction.downcase}") if robot.on_table?
   end
 
   def current
