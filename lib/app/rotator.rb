@@ -10,11 +10,11 @@ class Rotator
   end
 
   def current
-    POSITIONS.index(robot.direction)
+    POSITIONS.index(robot.direction.upcase)
   end
 
   def step_right
-    if current >= POSITIONS.size
+    if (current + 1) >= POSITIONS.size
       POSITIONS[0]
     else
       POSITIONS[current + 1]

@@ -1,5 +1,3 @@
-require 'rspec'
-
 class DirectionIsNotRecognized < StandardError; end
 
 class Robot
@@ -16,10 +14,12 @@ class Robot
   end
 
   def place(args)
-    x,y,direction = args.first.split(',')
+    x,y,direction = args
+    direction ||= 'NORTH'
     self.x = x.to_i
     self.y = y.to_i
     self.direction = direction
+    self
   end
 
   def move(*)
@@ -48,7 +48,11 @@ class Robot
   end
 
   def report(*)
-    puts "#{x}, #{y}, #{direction}" if on_table?
+    if on_table?
+      message = "#{x}, #{y}, #{direction}"
+      puts message
+      message
+    end
   end
 
   def on_table?

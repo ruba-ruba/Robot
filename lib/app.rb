@@ -26,21 +26,31 @@ class Reader
   def read_commands
     puts 'type commands'
     ARGF.each do |line|
-      next if line.strip.empty?
-      break if line.strip.match(/exit/)
+      next  if line.strip.empty?
+      break if line.strip.match(/exit|end/)
       run_commands(line)
     end
   end
 
   def run_commands(line)
     command, args = line.split
+    args = args.split(',') unless args.nil?
     self.send(command, args)
   end
 
-  def method_missing(method, *args, &block)
+  def method_missing(method, args, &block)
     robot.public_send(method.downcase, args)
   rescue
-    puts "Error: #{method} is not defined"
+    puts <<-EOF 
+      Error: #{method} is not defined
+      (#{$!})
+      method list:
+      place (x,y, direction)
+      move
+      left
+      right
+      report
+    EOF
   end
 end
 
