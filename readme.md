@@ -1,9 +1,11 @@
 ## Sample Robot App
 
-### how to run
+## Run 
+`ruby lib/app.rb` 
 
-`ruby app.rb filename`
-
-#### or
-
-`ruby app.rb test.txt` (test.txt conatin sample data from quiz)
+##### and run next of the following commands 
+- place(x,y,d) 
+- move
+- left 
+- right 
+- report
